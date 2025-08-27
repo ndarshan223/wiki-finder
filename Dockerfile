@@ -33,8 +33,8 @@ RUN mkdir -p /app/data /app/models
 # Requires internet connection during docker build
 RUN python download_model.py
 
-# Expose port 7860 (standard Gradio port)
-EXPOSE 7860
+# Expose port 8080 (standard Gradio port)
+EXPOSE 8080
 
 # Set environment variables for better Python behavior in containers
 ENV PYTHONUNBUFFERED=1

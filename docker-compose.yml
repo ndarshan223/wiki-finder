@@ -8,9 +8,9 @@ services:
     build: .
     
     # Port mapping: host:container
-    # Maps localhost:7860 to container port 7860 (Gradio default)
+    # Maps localhost:8080 to container port 8080 (Gradio default)
     ports:
-      - "7860:7860"
+      - "8080:8080"
     
     # Volume mounts for data persistence
     # Maps local ./data directory to container /app/data

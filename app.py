@@ -287,7 +287,7 @@ if __name__ == "__main__":
     print("Launching Gradio interface...")
     demo.launch(
         server_name="0.0.0.0",  # Allow external connections
-        server_port=7860,       # Standard port for Gradio apps
+        server_port=8080,       # Standard port for Gradio apps
         share=False,            # Set to True for public sharing via gradio.live
         show_error=True,        # Show detailed error messages
         quiet=False             # Show startup logs

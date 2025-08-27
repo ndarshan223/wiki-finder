@@ -68,7 +68,7 @@ fi
 
 # Launch the application
 echo "🌐 Launching application..."
-echo "📍 Access the chatbot at: http://localhost:7860"
+echo "📍 Access the chatbot at: http://localhost:8080"
 echo "🛑 Press Ctrl+C to stop the application"
 echo "================================================"
 

@@ -47,7 +47,7 @@ python app.py
 # Build and run with resource constraints
 docker-compose up --build
 
-# Access at http://localhost:7860
+# Access at http://localhost:8080
 ```
 
 ## 📊 Data Format
@@ -174,7 +174,7 @@ logging.basicConfig(level=logging.DEBUG)
 ## 🔒 Security Considerations
 
 - **Data Privacy**: All processing happens locally, no external API calls
-- **Network**: Application binds to 0.0.0.0:7860 (configure firewall as needed)
+- **Network**: Application binds to 0.0.0.0:8080 (configure firewall as needed)
 - **Dependencies**: Regular updates recommended for security patches
 
 ## 📈 Future Enhancements
