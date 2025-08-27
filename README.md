@@ -39,7 +39,7 @@ cd chatbot
 
 # Or manual setup:
 pip install -r requirements.txt
-python app.py
+python main.py
 ```
 
 ### Option 2: Docker Setup
@@ -99,16 +99,23 @@ top_results = sorted_results[similarities > 0.1][:5]
 
 ```
 chatbot/
-├── app.py                 # Main application with Gradio UI
+├── core/                  # Business logic
+│   ├── chatbot_service.py # Main service orchestrator
+│   ├── data_loader.py     # Data loading and preprocessing
+│   ├── search_engine.py   # Semantic search operations
+│   ├── formatter.py       # Result formatting
+│   ├── search_strategies.py # Search algorithms
+│   └── factory.py         # Component factories
+├── ui/                    # User interface
+│   ├── interface.py       # Gradio UI components
+│   └── styles.py          # CSS styling
+├── data/                  # Data files directory
+├── config.py              # Configuration management
+├── main.py               # Application entry point
+├── app.py                # Legacy entry point
 ├── requirements.txt       # Python dependencies
-├── Dockerfile            # Container configuration
-├── docker-compose.yml    # Multi-container setup
-├── download_model.py     # Pre-download sentence transformer
-├── run_local.sh         # Local setup script
-├── .dockerignore        # Docker build optimization
-├── data/                # Data files directory
-│   └── sdlc_tools_data.csv  # Sample data
-└── README.md            # This file
+├── run_local.sh          # Local setup script
+└── docker-compose.yml    # Container setup
 ```
 
 ## 🔍 Usage Examples
@@ -131,9 +138,9 @@ chatbot/
 3. Restart application to reload data
 
 ### Customizing Search
-- **Similarity threshold**: Modify `similarities[idx] > 0.1` in `search()` method
-- **Result count**: Change `top_k=5` parameter
-- **Model**: Replace `'all-MiniLM-L6-v2'` with other sentence transformer models
+- **Similarity threshold**: Modify `similarity_threshold` in `config.py`
+- **Result count**: Change `max_results` in `config.py`
+- **Model**: Replace `model_name` in `config.py`
 
 ### Performance Tuning
 - **Memory**: Adjust Docker memory limits in `docker-compose.yml`
