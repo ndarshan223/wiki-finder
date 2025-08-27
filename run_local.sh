@@ -22,6 +22,18 @@ fi
 
 echo "✅ Python 3 found: $(python3 --version)"
 
+# Setup virtual environment
+echo "🔧 Setting up virtual environment..."
+if [ ! -d "venv" ]; then
+    echo "Creating virtual environment..."
+    python3 -m venv venv
+fi
+
+# Activate virtual environment
+echo "Activating virtual environment..."
+source venv/bin/activate
+echo "✅ Virtual environment activated"
+
 # Check if data files exist, copy sample data if needed
 if [ ! -f "data/sdlc_tools_data.csv" ]; then
     echo "📁 Setting up sample data..."
@@ -41,15 +53,15 @@ fi
 
 # Check and install Python dependencies
 echo "📦 Checking Python dependencies..."
-if ! python3 -c "import gradio, pandas, sentence_transformers" 2>/dev/null; then
+if ! python -c "import gradio, pandas, sentence_transformers" 2>/dev/null; then
     echo "📥 Installing required dependencies..."
     echo "This may take a few minutes on first run..."
     
     # Upgrade pip first
-    python3 -m pip install --upgrade pip
+    pip install --upgrade pip
     
     # Install requirements
-    python3 -m pip install -r requirements.txt
+    pip install -r requirements.txt
     
     echo "✅ Dependencies installed successfully"
 else
@@ -73,4 +85,4 @@ echo "🛑 Press Ctrl+C to stop the application"
 echo "================================================"
 
 # Run the Python application
-python3 app.py
+python app.py

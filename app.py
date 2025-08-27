@@ -235,11 +235,7 @@ def chat_interface(message, history):
     return history, ""
 
 # Create the Gradio web interface with custom theme
-custom_theme = gr.themes.Soft().set(
-    primary_hue="purple",
-    secondary_hue="blue",
-    neutral_hue="slate"
-)
+custom_theme = gr.themes.Soft()
 
 custom_css = """
 .gradio-container {

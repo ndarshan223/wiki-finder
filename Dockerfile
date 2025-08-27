@@ -45,7 +45,7 @@ COPY --from=builder /build/deps /usr/local/lib/python3.9/site-packages/
 COPY --from=builder /build/models ./models/
 
 # Copy application files to container
-COPY app.py sample_data.py ./
+COPY app.py ./
 
 # Create necessary directories for data
 # /app/data: For SDLC tools data files (Excel/CSV)
@@ -55,7 +55,7 @@ RUN mkdir -p /app/data
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONDONTWRITEBYTECODE=1
 
-# Expose port 8080
+# Expose port 8080d
 EXPOSE 8080
 
 # Run the application
