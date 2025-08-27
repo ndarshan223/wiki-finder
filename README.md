@@ -47,15 +47,22 @@ python main.py
 # Build and run with resource constraints
 docker-compose up --build
 
-# Access at http://localhost:8080
+# Access at http://localhost:8080 (local) or http://localhost:8080 (docker)
 ```
+
+### 🌐 Application Access
+- **Local Python**: http://localhost:8080
+- **Docker**: http://localhost:8080
+- **Interface Tabs**:
+  - **Chat**: Main semantic search interface
+  - **Data Management**: Upload Excel/CSV files
 
 ## 📊 Data Format
 
 Place Excel (.xlsx) or CSV files in the `data/` folder with these columns:
 
 | Column | Description | Example |
-|--------|-------------|---------|
+|--------|-------------|---------||
 | **Tool** | SDLC tool name | GitLab, Jira, SonarQube |
 | **Action** | Specific task/action | Setup CI/CD Pipeline |
 | **Summary** | Detailed description | Configure GitLab CI/CD pipeline for automated builds and deployments |
@@ -132,6 +139,19 @@ chatbot/
 
 ## 🛠️ Development
 
+### Data Setup
+1. **Prepare Data Files**:
+   ```bash
+   # Move sample data to data folder (if needed)
+   sudo mv sdlc_tools_data.csv data/
+   # OR create your own Excel file with required columns
+   ```
+
+2. **Data Management Options**:
+   - Place files directly in `data/` folder
+   - Use "Data Management" tab in UI to upload files
+   - Supports both Excel (.xlsx) and CSV formats
+
 ### Adding New Data
 1. Place Excel/CSV files in `data/` folder
 2. Ensure proper column format (Tool, Action, Summary, Confluence Link)
@@ -153,9 +173,16 @@ chatbot/
 
 **No data loaded**
 ```bash
-# Check data folder
+# Check data folder and file permissions
 ls -la data/
-# Ensure CSV/Excel files have correct columns
+# Ensure CSV/Excel files have correct columns: Tool, Action, Summary, Confluence Link
+# Verify file format and encoding
+```
+
+**Port conflicts**
+```bash
+# If port 8080 is in use, modify in main.py:
+# demo.launch(server_port=8080)
 ```
 
 **Memory errors**
@@ -163,12 +190,21 @@ ls -la data/
 # Reduce Docker memory limits or use smaller model
 # Check available system memory
 free -h
+# For Docker: modify docker-compose.yml memory limits
 ```
 
 **Slow startup**
 ```bash
-# Model downloads on first run
-# Use pre-built Docker image or download_model.py
+# Model downloads on first run (~80MB)
+# Use pre-built Docker image or run download_model.py separately
+# Subsequent starts are faster due to model caching
+```
+
+**File upload issues**
+```bash
+# Ensure proper file permissions in data/ folder
+sudo chmod 755 data/
+# Check file format matches expected columns
 ```
 
 ### Debug Mode
@@ -212,3 +248,199 @@ For issues and questions:
 4. Create GitHub issue with detailed description
 
 ---
+
+# 🏗️ Detailed Architecture Guide
+
+## 🔧 Core Components
+
+### DataLoader (`core/data_loader.py`)
+- Handles loading Excel/CSV files
+- Validates data structure
+- Cleans and preprocesses data
+- Combines multiple data sources
+
+### SearchEngine (`core/search_engine.py`)
+- Manages sentence transformer models
+- Creates embeddings for semantic search
+- Supports pluggable search strategies
+- Handles search operations
+
+### SearchStrategies (`core/search_strategies.py`)
+- Abstract base class for search algorithms
+- `CosineSimilarityStrategy`: Standard cosine similarity
+- `WeightedSimilarityStrategy`: Weighted field importance
+- Extensible for custom search algorithms
+
+### ResultFormatter (`core/formatter.py`)
+- Formats search results for display
+- Handles no-results scenarios
+- Creates status messages
+
+### ChatbotService (`core/chatbot_service.py`)
+- Main orchestrator class
+- Coordinates all components
+- Provides high-level API
+
+### Factory (`core/factory.py`)
+- Creates component instances
+- Supports dependency injection
+- Enables easy testing and extension
+
+## 🎨 UI Components
+
+### ChatInterface (`ui/interface.py`)
+- Gradio UI components
+- Event handling
+- User interaction management
+
+### Styles (`ui/styles.py`)
+- CSS styling definitions
+- Centralized theme management
+
+## ⚙️ Configuration
+
+### Config (`config.py`)
+- Centralized configuration management
+- Type-safe configuration classes
+- Environment-specific settings
+
+```python
+@dataclass
+class AppConfig:
+    search: SearchConfig
+    data: DataConfig
+    ui: UIConfig
+```
+
+## 🚀 Usage
+
+### Basic Usage
+```python
+from main import main
+main()
+```
+
+### Custom Configuration
+```python
+from core.chatbot_service import ChatbotService
+from config import AppConfig, SearchConfig
+
+# Custom configuration
+config = AppConfig()
+config.search.similarity_threshold = 0.2
+config.search.max_results = 10
+
+# Initialize service
+service = ChatbotService(config)
+```
+
+### Custom Search Strategy
+```python
+from core.search_strategies import WeightedSimilarityStrategy
+from core.factory import ComponentFactory
+
+# Create custom strategy
+strategy = WeightedSimilarityStrategy(
+    tool_weight=3.0,
+    action_weight=2.0,
+    summary_weight=1.0
+)
+
+# Create search engine with custom strategy
+search_engine = ComponentFactory.create_search_engine(
+    config.search, 
+    strategy
+)
+```
+
+## 🔌 Extensibility
+
+### Adding New Search Strategies
+
+1. Create a new strategy class:
+```python
+class CustomSearchStrategy(SearchStrategy):
+    def search(self, query_embedding, data_embeddings, data, top_k, threshold):
+        # Your custom search logic
+        return results
+```
+
+2. Register in factory:
+```python
+class SearchStrategyFactory:
+    @staticmethod
+    def create_strategy(strategy_type: str, **kwargs):
+        if strategy_type == "custom":
+            return CustomSearchStrategy(**kwargs)
+        # ... existing strategies
+```
+
+### Adding New Data Sources
+
+1. Extend DataLoader:
+```python
+class CustomDataLoader(DataLoader):
+    def _load_single_file(self, file_path: str):
+        # Custom file loading logic
+        pass
+```
+
+2. Use in service:
+```python
+service = ChatbotService()
+service.data_loader = CustomDataLoader(config.data)
+```
+
+### Adding New UI Components
+
+1. Create new UI module:
+```python
+# ui/custom_interface.py
+class CustomInterface:
+    def create_interface(self):
+        # Custom UI logic
+        pass
+```
+
+2. Use in main:
+```python
+from ui.custom_interface import CustomInterface
+
+interface = CustomInterface(service, config.ui)
+```
+
+## 🧪 Testing
+
+The modular structure enables easy unit testing:
+
+```python
+# Test data loader
+def test_data_loader():
+    config = DataConfig(data_folder="test_data")
+    loader = DataLoader(config)
+    data = loader.load_files()
+    assert data is not None
+
+# Test search engine
+def test_search_engine():
+    config = SearchConfig()
+    engine = SearchEngine(config)
+    # Mock data and test search
+```
+
+## 📈 Benefits
+
+1. **Separation of Concerns**: Each module has a single responsibility
+2. **Testability**: Components can be tested in isolation
+3. **Extensibility**: Easy to add new features without breaking existing code
+4. **Maintainability**: Clear structure makes code easier to understand and modify
+5. **Reusability**: Components can be reused in different contexts
+6. **Configuration Management**: Centralized settings for easy deployment
+
+## 🛠️ Development Workflow
+
+1. **Core Logic**: Implement business logic in `core/` modules
+2. **UI Changes**: Modify `ui/` components for interface updates  
+3. **Configuration**: Update `config.py` for new settings
+4. **Extensions**: Use strategy pattern and factories for new features
+5. **Testing**: Write unit tests for individual components

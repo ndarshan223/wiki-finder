@@ -10,10 +10,10 @@ services:
       - "8080:8080"
     
     # Volume mounts for data persistence
-    # Maps local ./data directory to container /app/data
+    # Maps local ./data directory to container /app/data (read-only for safety)
     # This allows adding/updating data files without rebuilding the image
     volumes:
-      - ./data:/app/data
+      - ./data:/app/data:ro
     
     # Environment variables for the container
     environment:
@@ -22,21 +22,14 @@ services:
       # Prevent Python from writing .pyc files
       - PYTHONDONTWRITEBYTECODE=1
     
-    # Resource constraints for laptops with limited RAM (<4GB)
-    # These limits ensure the application doesn't consume too much memory
-    deploy:
-      resources:
-        limits:
-          # Maximum memory usage: 3GB
-          # Includes model (~80MB) + embeddings + application overhead
-          memory: 3G
-        reservations:
-          # Minimum guaranteed memory: 1GB
-          # Ensures stable operation even under system memory pressure
-          memory: 1G
-    
     # Restart policy: restart container if it crashes
     restart: unless-stopped
     
     # Container name for easier management
     container_name: sdlc-semantic-search
+    
+    # Resource constraints for better compatibility
+    # mem_limit: Maximum memory usage (2GB should be sufficient)
+    # mem_reservation: Minimum guaranteed memory (512MB)
+    mem_limit: 2g
+    mem_reservation: 512m

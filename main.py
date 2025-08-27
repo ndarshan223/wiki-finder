@@ -24,7 +24,7 @@ def main():
     demo.launch(
         server_name=config.ui.server_name,
         server_port=config.ui.server_port,
-        share=False,
+        share=True,
         show_error=True,
         quiet=False
     )
