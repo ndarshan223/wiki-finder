@@ -1,17 +1,45 @@
+# Docker Compose configuration for SDLC Tools Semantic Search Chatbot
+# Version 3.8 supports resource limits and is widely compatible
 version: '3.8'
 
 services:
   chatbot:
+    # Build the Docker image from current directory
     build: .
+    
+    # Port mapping: host:container
+    # Maps localhost:7860 to container port 7860 (Gradio default)
     ports:
       - "7860:7860"
+    
+    # Volume mounts for data persistence
+    # Maps local ./data directory to container /app/data
+    # This allows adding/updating data files without rebuilding the image
     volumes:
       - ./data:/app/data
+    
+    # Environment variables for the container
     environment:
+      # Ensure Python output is not buffered (better for logging)
       - PYTHONUNBUFFERED=1
+      # Prevent Python from writing .pyc files
+      - PYTHONDONTWRITEBYTECODE=1
+    
+    # Resource constraints for laptops with limited RAM (<4GB)
+    # These limits ensure the application doesn't consume too much memory
     deploy:
       resources:
         limits:
+          # Maximum memory usage: 3GB
+          # Includes model (~80MB) + embeddings + application overhead
           memory: 3G
         reservations:
+          # Minimum guaranteed memory: 1GB
+          # Ensures stable operation even under system memory pressure
           memory: 1G
+    
+    # Restart policy: restart container if it crashes
+    restart: unless-stopped
+    
+    # Container name for easier management
+    container_name: sdlc-semantic-search

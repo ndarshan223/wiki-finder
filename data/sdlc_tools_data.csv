@@ -1,0 +1,21 @@
+Tool,Action,Summary,Confluence Link
+GitLab,Setup CI/CD Pipeline,Configure GitLab CI/CD pipeline for automated builds and deployments,https://confluence.company.com/gitlab/cicd-setup
+CloudBees,Jenkins Pipeline,Create and manage Jenkins pipelines in CloudBees,https://confluence.company.com/cloudbees/pipelines
+Nexus,Repository Setup,Create and configure Nexus repositories,https://confluence.company.com/nexus/repo-setup
+SonarQube,Quality Gates,Configure quality gates and thresholds,https://confluence.company.com/sonar/quality-gates
+Q Whisperer,AI Code Review,Setup automated AI-powered code reviews,https://confluence.company.com/qwhisperer/code-review
+Jira,Project Setup,Create and configure Jira projects,https://confluence.company.com/jira/project-setup
+Confluence,Space Management,Create and organize Confluence spaces,https://confluence.company.com/confluence/spaces
+Bitbucket,Repository Setup,Create and configure Bitbucket repositories,https://confluence.company.com/bitbucket/repo-setup
+GitLab,Create Merge Request,How to create and manage merge requests in GitLab,https://confluence.company.com/gitlab/merge-requests
+CloudBees,Plugin Management,Install and configure CloudBees plugins,https://confluence.company.com/cloudbees/plugins
+Nexus,Artifact Upload,Upload and manage artifacts in Nexus,https://confluence.company.com/nexus/artifacts
+SonarQube,Code Analysis,Setup automated code quality analysis,https://confluence.company.com/sonar/analysis
+Q Whisperer,Integration Setup,Integrate Q Whisperer with development tools,https://confluence.company.com/qwhisperer/integration
+Jira,Workflow Configuration,Design and implement custom workflows,https://confluence.company.com/jira/workflows
+Confluence,Page Templates,Create and use page templates,https://confluence.company.com/confluence/templates
+Bitbucket,Branch Permissions,Configure branch permissions and policies,https://confluence.company.com/bitbucket/branch-permissions
+GitLab,Configure Runners,Setup and configure GitLab runners for CI/CD execution,https://confluence.company.com/gitlab/runners
+CloudBees,Security Configuration,Setup security and authentication in CloudBees,https://confluence.company.com/cloudbees/security
+Nexus,Security Policies,Configure security and access policies,https://confluence.company.com/nexus/security
+SonarQube,Integration Setup,Integrate SonarQube with CI/CD pipelines,https://confluence.company.com/sonar/integration

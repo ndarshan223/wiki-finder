@@ -1,7 +1,64 @@
-__pycache__
-*.pyc
-.git
+# Docker ignore file for SDLC Tools Semantic Search Chatbot
+# Excludes unnecessary files from Docker build context to reduce image size
+
+# Git files and directories
+.git/
 .gitignore
-README.md
+.github/
+
+# Python cache and temporary files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+.pytest_cache/
+.coverage
+
+# Virtual environments
 venv/
-.env
+env/
+ENV/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Documentation and README files (keep essential ones)
+*.md
+!README.md
+
+# Log files
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Model files (will be downloaded during build)
+models/
+*.model
+
+# Large data files that should be mounted as volumes
+# Keep sample data for initial setup
+# data/
+
+# Build artifacts
+dist/
+build/
+*.egg-info/

@@ -1,95 +1,56 @@
 # Semantic Search Chatbot - Setup Instructions
 
-## Quick Start (Local)
+## Files Created
+- `app.py` - Main application with Gradio UI and semantic search
+- `requirements.txt` - Python dependencies
+- `Dockerfile` - Container configuration
+- `docker-compose.yml` - Docker compose with resource limits
+- `sdlc_tools_data.csv` - Sample data (move to data/ folder)
 
-### Prerequisites
-- Python 3.9+
-- 2GB+ available RAM
+## Setup Instructions
 
-### Option 1: Direct Python Setup
+### 1. Prepare Data
 ```bash
-# Clone/navigate to project directory
-cd chatbot
-
-# Run setup script
-./run_local.sh
+# Move the sample data to data folder (requires proper permissions)
+sudo mv sdlc_tools_data.csv data/
+# OR create your own Excel file with columns: Tool, Action, Summary, Confluence Link
 ```
 
-### Option 2: Manual Setup
+### 2. Run Locally (Python)
 ```bash
 # Install dependencies
 pip install -r requirements.txt
-
-# Create sample data
-python sample_data.py
 
 # Run application
 python app.py
 ```
 
-Access at: http://localhost:7860
-
-## Docker Setup (Recommended for <4GB RAM)
-
-### Prerequisites
-- Docker & Docker Compose
-- 3GB+ available RAM
-
-### Run with Docker
+### 3. Run with Docker
 ```bash
-# Build and start
+# Build and run with resource constraints
 docker-compose up --build
-
-# Or run in background
-docker-compose up -d --build
 ```
 
-Access at: http://localhost:7860
+### 4. Access Application
+- Open browser: http://localhost:7860
+- Upload Excel/CSV file in "Data Management" tab
+- Use "Chat" tab for semantic search
 
-### Memory Management
-The Docker setup is configured with:
-- Memory limit: 3GB
-- Memory reservation: 1GB
+## Resource Requirements
+- Memory: <3GB RAM
+- CPU: Minimal (sentence transformer model is lightweight)
+- Storage: ~500MB for dependencies
 
-## Usage
+## Data Format
+CSV/Excel with columns:
+- Tool: SDLC tool name
+- Action: What action/task
+- Summary: Description
+- Confluence Link: Documentation URL
 
-1. **Load Data**: Go to "Data Management" tab and upload your Excel file
-2. **Search**: Use the "Chat" tab to query your data
-3. **Query Examples**:
-   - "How to setup GitLab CI/CD?"
-   - "SonarQube configuration"
-   - "Nexus repository management"
-
-## File Structure
-```
-chatbot/
-├── app.py              # Main application
-├── requirements.txt    # Dependencies
-├── Dockerfile         # Docker configuration
-├── docker-compose.yml # Docker Compose setup
-├── sample_data.py     # Sample data generator
-├── run_local.sh       # Local setup script
-└── data/              # Data directory
-    └── sample_tools_data.xlsx
-```
-
-## Excel File Format
-Your Excel file should have these columns:
-- **Tool**: Name of the tool (GitLab, SonarQube, etc.)
-- **Action**: What action/task
-- **Summary**: Description of the content
-- **Confluence Link**: Link to documentation
-
-## Troubleshooting
-
-### Low Memory Issues
-- Use Docker setup with memory limits
-- Close other applications
-- Reduce batch size in semantic search
-
-### Port Conflicts
-Change port in docker-compose.yml:
-```yaml
-ports:
-  - "8080:7860"  # Use port 8080 instead
-```
+## Features
+- Semantic search using sentence transformers
+- Gradio chat interface
+- In-memory vector database
+- Docker support with resource limits
+- Support for Excel and CSV files

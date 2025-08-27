@@ -1,8 +1,15 @@
-gradio==3.50.2
+# Web UI framework for creating the chat interface
+gradio==4.44.0
+
+# Data manipulation and file handling
 pandas==2.1.4
 numpy==1.24.3
-sentence-transformers==2.7.0
-huggingface-hub==0.23.4
-scikit-learn==1.3.2
 openpyxl==3.1.2
+
+# Machine learning and semantic search
+sentence-transformers==2.2.2
+scikit-learn==1.3.2
 torch==2.1.0
+
+# Hugging Face model hub for downloading pre-trained models
+huggingface-hub==0.17.3
