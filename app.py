@@ -234,15 +234,71 @@ def chat_interface(message, history):
     # Return updated history and empty string to clear the input box
     return history, ""
 
-# Create the Gradio web interface
+# Create the Gradio web interface with custom theme
+custom_theme = gr.themes.Soft().set(
+    primary_hue="purple",
+    secondary_hue="blue",
+    neutral_hue="slate"
+)
+
+custom_css = """
+.gradio-container {
+    max-width: 1200px;
+    margin: auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+}
+
+/* Custom purple primary color */
+.primary {
+    background: #5514B4 !important;
+    border-color: #5514B4 !important;
+}
+
+/* Header styling */
+h1, h2, h3 {
+    color: #5514B4 !important;
+    font-weight: 600 !important;
+}
+
+/* Chat interface styling */
+.chatbot {
+    border: 2px solid #5514B4 !important;
+    border-radius: 12px !important;
+}
+
+/* Input box styling */
+.textbox {
+    border: 2px solid #E6E6FA !important;
+    border-radius: 8px !important;
+}
+
+.textbox:focus {
+    border-color: #5514B4 !important;
+    box-shadow: 0 0 0 2px rgba(85, 20, 180, 0.2) !important;
+}
+
+/* Button styling */
+.btn-primary {
+    background: linear-gradient(135deg, #5514B4, #7B68EE) !important;
+    border: none !important;
+    color: white !important;
+    font-weight: 500 !important;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #4A0E9E, #6A5ACD) !important;
+    transform: translateY(-1px) !important;
+}
+"""
+
 with gr.Blocks(
     title="SDLC Tools Semantic Search",
-    theme=gr.themes.Soft(),  # Use a clean, professional theme
-    css=".gradio-container {max-width: 1200px; margin: auto;}"
+    theme=custom_theme,
+    css=custom_css
 ) as demo:
     
-    # Application header and status
-    gr.Markdown("# 🔍 SDLC Tools Semantic Search Chatbot")
+    # Application header
+    gr.Markdown("# 🔍 SDLC Tools Semantic Search")
     gr.Markdown(
         "Ask questions about SDLC tools like GitLab, Jira, SonarQube, Nexus, CloudBees, and more. "
         "The system will find relevant documentation and procedures using semantic search."

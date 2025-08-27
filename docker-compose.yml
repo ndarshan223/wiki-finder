@@ -1,7 +1,4 @@
 # Docker Compose configuration for SDLC Tools Semantic Search Chatbot
-# Version 3.8 supports resource limits and is widely compatible
-version: '3.8'
-
 services:
   chatbot:
     # Build the Docker image from current directory
