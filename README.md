@@ -180,11 +180,9 @@ logging.basicConfig(level=logging.DEBUG)
 ## 📈 Future Enhancements
 
 - [ ] Context-aware conversations
-- [ ] Multi-language support
-- [ ] Advanced filtering (by tool, date, etc.)
+- [ ] Multi-Data type support
 - [ ] Integration with Confluence API
-- [ ] User feedback and learning
-- [ ] Export search results
+- [ ] FAQ integrated
 
 ## 🤝 Contributing
 
@@ -207,5 +205,3 @@ For issues and questions:
 4. Create GitHub issue with detailed description
 
 ---
-
-**Built with ❤️ for SDLC teams**
