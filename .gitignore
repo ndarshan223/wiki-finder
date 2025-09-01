@@ -1,7 +1,6 @@
 # Documentation
 Readme.md
 README_SETUP.md
-*.md
 
 # Python
 __pycache__/
